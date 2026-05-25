@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VERTIS</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Archivo+Narrow:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
+body{font-family:'Archivo Narrow',sans-serif;background:#0b1120;color:white;overflow-x:hidden;}
+
+.cursor-glow{position:fixed;width:300px;height:300px;background:rgba(46,204,113,0.08);border-radius:50%;filter:blur(70px);pointer-events:none;transform:translate(-50%,-50%);z-index:0;}
+
+.plants{position:fixed;width:100%;height:100%;top:0;left:0;overflow:hidden;pointer-events:none;z-index:0;}
+.plants span{position:absolute;bottom:-100px;opacity:0.12;font-size:28px;animation:floatUp linear infinite;}
+.plants span:nth-child(1){left:10%;animation-duration:12s;}
+.plants span:nth-child(2){left:30%;animation-duration:9s;}
+.plants span:nth-child(3){left:50%;animation-duration:11s;}
+.plants span:nth-child(4){left:70%;animation-duration:8s;}
+.plants span:nth-child(5){left:90%;animation-duration:13s;}
+@keyframes floatUp{from{transform:translateY(0);}to{transform:translateY(-120vh);}}
+
+.hero{position:relative;height:100vh;display:flex;justify-content:center;align-items:center;text-align:center;overflow:hidden;}
+
+/* FIX 1: replaced local plant.jpg with a working online farm/field photo */
+.hero::before{content:'';position:absolute;width:100%;height:100%;background:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1600&q=80') center/cover no-repeat;transform:scale(1.05);}
+.hero::after{content:'';position:absolute;width:100%;height:100%;background:linear-gradient(to bottom,rgba(11,17,32,0.15),rgba(11,17,32,0.7),#0b1120);}
+
+.scan-line{position:absolute;width:100%;height:4px;background:rgba(46,204,113,0.7);box-shadow:0 0 20px #2ecc71;animation:scan 6s linear infinite;z-index:1;}
+@keyframes scan{0%{top:0%;}100%{top:100%;}}
+
+.hero-content{position:relative;z-index:2;opacity:0;transform:translateY(40px);animation:fadeUp 1.5s ease forwards;}
+.hero h1{font-family:'Playfair Display',serif;font-size:130px;letter-spacing:12px;text-shadow:0 0 20px rgba(46,204,113,0.4),0 0 40px rgba(52,152,219,0.3);}
+.tagline{margin-top:20px;letter-spacing:8px;font-size:16px;opacity:0.85;}
+.scroll-text{margin-top:60px;font-size:14px;letter-spacing:5px;opacity:0.6;animation:bounce 2s infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(10px);}}
+
+.section{position:relative;z-index:1;max-width:1200px;margin:auto;padding:140px 100px;}
+
+.fade{opacity:0;transform:translateY(50px);transition:1s ease;}
+.fade.show{opacity:1;transform:translateY(0);}
+
+.question{font-size:42px;margin-bottom:20px;}
+.answer{font-size:19px;color:#cbd5f5;line-height:1.9;margin-bottom:90px;}
+
+.mission-vision{display:flex;flex-direction:column;gap:40px;}
+.mv-box{background:rgba(17,24,39,0.7);backdrop-filter:blur(12px);padding:50px;border-radius:25px;border-left:5px solid #2ecc71;box-shadow:0 10px 40px rgba(0,0,0,0.5);transition:0.4s;}
+.mv-box:nth-child(2){border-left:5px solid #3498db;}
+.mv-box:hover{transform:translateY(-10px);box-shadow:0 0 30px rgba(46,204,113,0.3);}
+.mv-box h2{font-family:'Playfair Display',serif;margin-bottom:15px;font-size:34px;}
+.mv-box p{color:#cbd5f5;line-height:1.9;font-size:18px;}
+
+.features{margin-top:120px;display:flex;gap:25px;flex-wrap:wrap;}
+.card{flex:1;min-width:250px;background:rgba(17,24,39,0.7);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.08);border-radius:25px;padding:40px;transition:0.4s;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;inset:0;background:linear-gradient(130deg,transparent,rgba(46,204,113,0.1),transparent);transform:translateX(-100%);transition:0.7s;}
+.card:hover::before{transform:translateX(100%);}
+.card:hover{transform:translateY(-12px) scale(1.03);box-shadow:0 0 30px rgba(46,204,113,0.25);}
+.card h3{margin-bottom:15px;font-size:25px;}
+.card p{color:#cbd5f5;line-height:1.8;}
+
+.workflow{margin-top:150px;text-align:center;}
+.workflow h2{font-size:55px;margin-bottom:70px;font-family:'Playfair Display',serif;}
+.steps{display:flex;justify-content:center;flex-wrap:wrap;gap:30px;}
+.step{background:rgba(17,24,39,0.7);padding:35px;border-radius:20px;width:220px;border:1px solid rgba(255,255,255,0.08);transition:0.3s;}
+.step:hover{transform:translateY(-8px);box-shadow:0 0 25px rgba(52,152,219,0.3);}
+.step h3{margin-bottom:12px;}
+
+.timeline-section{margin-top:170px;}
+.timeline-title{text-align:center;font-size:60px;margin-bottom:100px;font-family:'Playfair Display',serif;}
+.timeline{position:relative;max-width:1000px;margin:auto;}
+.timeline::before{content:'';position:absolute;left:50%;top:0;width:4px;height:100%;background:#2ecc71;box-shadow:0 0 20px #2ecc71;transform:translateX(-50%);}
+.timeline-item{position:relative;width:50%;padding:30px 50px;}
+.timeline-item:nth-child(odd){left:0;text-align:right;}
+.timeline-item:nth-child(even){left:50%;}
+.timeline-content{background:rgba(17,24,39,0.7);backdrop-filter:blur(12px);padding:35px;border-radius:25px;border:1px solid rgba(255,255,255,0.08);transition:0.4s;}
+.timeline-content:hover{transform:scale(1.03);box-shadow:0 0 25px rgba(46,204,113,0.3);}
+.timeline-content h3{margin-bottom:10px;font-size:28px;}
+.timeline-content p{color:#cbd5f5;line-height:1.8;}
+.timeline-dot{position:absolute;width:22px;height:22px;background:#2ecc71;border-radius:50%;top:40px;right:-11px;box-shadow:0 0 20px #2ecc71;}
+.timeline-item:nth-child(even) .timeline-dot{left:-11px;right:auto;}
+
+.stats{margin-top:170px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:30px;}
+.stat-box{flex:1;min-width:220px;background:rgba(17,24,39,0.7);padding:45px;border-radius:25px;text-align:center;transition:0.4s;}
+.stat-box:hover{transform:translateY(-8px);box-shadow:0 0 25px rgba(46,204,113,0.25);}
+.stat-box h2{font-size:55px;color:#2ecc71;}
+.stat-box p{margin-top:12px;color:#cbd5f5;}
+
+.footer{margin-top:180px;padding:60px;text-align:center;color:#94a3b8;border-top:1px solid rgba(255,255,255,0.08);}
+
+@keyframes fadeUp{to{opacity:1;transform:translateY(0);}}
+
+@media(max-width:900px){
+  .hero h1{font-size:80px;}
+  .section{padding:100px 30px;}
+  .timeline::before{left:20px;}
+  .timeline-item{width:100%;left:0!important;padding-left:70px;padding-right:20px;text-align:left!important;}
+  .timeline-dot{left:10px!important;right:auto!important;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-glow"></div>
+
+<div class="plants">
+  <span>🌿</span><span>🍃</span><span>🌱</span><span>🍀</span><span>🌿</span>
+</div>
+
+<section class="hero">
+  <div class="scan-line"></div>
+  <div class="hero-content">
+    <h1>VERTIS</h1>
+    <p class="tagline">THE FUTURE OF SMART AGRICULTURE</p>
+    <div class="scroll-text">SCROLL TO EXPLORE ↓</div>
+  </div>
+</section>
+
+<section class="section">
+
+  <div class="mission-vision fade">
+    <div class="mv-box">
+      <h2>🌿 Mission</h2>
+      <p>Our mission is to enhance agricultural efficiency through intelligent automation. Vertis provides real-time insights into plant health, enabling early detection of diseases and reducing crop loss through proactive decision-making.</p>
+    </div>
+    <div class="mv-box">
+      <h2>🍃 Vision</h2>
+      <p>Our vision is to transform the future of agriculture by integrating robotics and AI into everyday farming. Vertis aims to support sustainable practices and improve global food security.</p>
+    </div>
+  </div>
+
+  <div class="fade" style="margin-top:140px;">
+    <div class="question">What is Vertis?</div>
+    <div class="answer">Vertis is an intelligent agricultural inspection robot designed to detect plant diseases early using AI-powered image analysis, environmental sensors, and real-time monitoring systems.</div>
+    <div class="question">How does Vertis work?</div>
+    <div class="answer">The robot navigates through fields while collecting live environmental data and capturing crop images. AI models analyze this information instantly to detect diseases and provide smart alerts before damage spreads.</div>
+  </div>
+
+  <div class="features fade">
+    <div class="card">
+      <h3>🌿 Intelligent Detection</h3>
+      <p>Uses advanced AI models to analyze crop images and identify plant diseases with high accuracy.</p>
+    </div>
+    <div class="card">
+      <h3>🍃 Real-Time Monitoring</h3>
+      <p>Continuously monitors temperature, humidity, and environmental conditions to maintain healthy crops.</p>
+    </div>
+    <div class="card">
+      <h3>🌱 Smart Alerts</h3>
+      <p>Sends real-time alerts and recommendations to prevent disease spread and improve agricultural efficiency.</p>
+    </div>
+  </div>
+
+  <div class="workflow fade">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step"><h3>📸 Capture</h3><p>Robot captures crop images in real time.</p></div>
+      <div class="step"><h3>🧠 Analyze</h3><p>AI processes images and sensor data instantly.</p></div>
+      <div class="step"><h3>⚠ Detect</h3><p>Diseases and irregularities are identified.</p></div>
+      <div class="step"><h3>📡 Alert</h3><p>Smart notifications are sent to users.</p></div>
+    </div>
+  </div>
+
+  <div class="timeline-section fade">
+    <h2 class="timeline-title">Project Timeline</h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h3>Week 1 – 5</h3>
+          <p>Research and concept development. Identifying agricultural challenges and planning Vertis features.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h3>Week 6 – 10</h3>
+          <p>Designing the robot structure, system planning, sensor selection, and UI concepts.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h3>Week 11 – 15</h3>
+          <p>Material collection, sensor testing, compatibility checks, and AI dataset preparation.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h3>Week 16 – 20</h3>
+          <p>Prototype construction, wiring circuits, assembling components, and coding movement systems.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h3>Week 21 – 25</h3>
+          <p>AI training, calibration, real-time monitoring tests, and improving disease detection accuracy.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h3>Week 26 – 30</h3>
+          <p>Final assembly, optimization, user testing, and project presentation preparation.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="stats fade">
+    <div class="stat-box"><h2>95%</h2><p>Detection Accuracy</p></div>
+    <div class="stat-box"><h2>24/7</h2><p>Real-Time Monitoring</p></div>
+    <div class="stat-box"><h2>AI</h2><p>Smart Disease Analysis</p></div>
+    <div class="stat-box"><h2>100%</h2><p>Eco-Friendly Design</p></div>
+  </div>
+
+  <div class="footer">VERTIS © 2026 | Smart Agriculture Powered by AI</div>
+
+</section>
+
+<script>
+const faders = document.querySelectorAll('.fade');
+
+function checkFade() {
+  const triggerBottom = window.innerHeight * 0.85;
+  faders.forEach(el => {
+    if (el.getBoundingClientRect().top < triggerBottom) {
+      el.classList.add('show');
+    }
+  });
+}
+
+/* FIX 2: run on scroll AND immediately on load so elements visible at start appear */
+window.addEventListener('scroll', checkFade);
+checkFade();
+
+const glow = document.querySelector('.cursor-glow');
+document.addEventListener('mousemove', e => {
+  glow.style.left = e.clientX + 'px';
+  glow.style.top = e.clientY + 'px';
+});
+</script>
+</body>
+</html>
